@@ -1,0 +1,6 @@
+{
+  "name": "kussausliebe",
+  "description": "Our wedding photo wall",
+  "image": "heroku/scala",
+  "addons": [ "heroku-postgresql" ]
+}
