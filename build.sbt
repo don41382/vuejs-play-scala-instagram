@@ -39,5 +39,5 @@ frontEndBuild := {
 
 frontEndBuild := (frontEndBuild dependsOn cleanFrontEndBuild).value
 
+
 dist := (dist dependsOn frontEndBuild).value
-stage := (stage dependsOn frontEndBuild).value

@@ -5,7 +5,7 @@
             <img src="/assets/images/play.png" alt="Play Framework"> +
             <img src="/assets/images/vue.png" alt="Vue.js">
         </div>
-        <h1>Hello from <span class="text-primary">Vue.js</span>!</h1>
+        <h1>Welcome from <span class="text-primary">Vue.js</span>!</h1>
     </div>
 </template>
 
