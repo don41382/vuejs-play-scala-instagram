@@ -1,6 +1,6 @@
 <template>
     <div id="hello">
-        <div id="images">
+        <div id="images" @click="show">
             <img src="/assets/images/scala.png" alt="Scala"> +
             <img src="/assets/images/play.png" alt="Play Framework"> +
             <img src="/assets/images/vue.png" alt="Vue.js">
@@ -11,7 +11,16 @@
 
 <script>
     export default {
+      methods: {
+        show() {
+            const h = this.$createElement;
 
+            this.$notify({
+              title: 'Title',
+              message: h('i', { style: 'color: teal' }, 'This is a reminder')
+            });
+        }
+      }
     }
 </script>
 

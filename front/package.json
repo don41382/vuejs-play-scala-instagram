@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.6",
+    "element-ui": "^1.4.3",
     "vue": "^2.3.2"
   }
 }
