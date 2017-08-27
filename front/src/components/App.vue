@@ -1,11 +1,9 @@
 <template>
     <div id="hello">
         <div id="images" @click="show">
-            <img src="/assets/images/scala.png" alt="Scala"> +
-            <img src="/assets/images/play.png" alt="Play Framework"> +
-            <img src="/assets/images/vue.png" alt="Vue.js">
+            <img src="/assets/images/soonmore.jpg" alt="soon more">
         </div>
-        <h1>Welcome from <span class="text-primary">Vue.js</span>!</h1>
+        <h1>We are working on it! <span class="text-primary">Stay tuned!</span></h1>
     </div>
 </template>
 
@@ -16,8 +14,8 @@
             const h = this.$createElement;
 
             this.$notify({
-              title: 'Title',
-              message: h('i', { style: 'color: teal' }, 'This is a reminder')
+              title: 'Save the date',
+              message: h('i', { style: 'color: teal' }, '9. June 2018')
             });
         }
       }
@@ -40,7 +38,7 @@
         font-weight: bold;
         margin-bottom: 1em;
         img {
-            height: 100px;
+            height: 400px;
         }
     }
 </style>
