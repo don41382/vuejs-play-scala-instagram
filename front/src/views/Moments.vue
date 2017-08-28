@@ -60,15 +60,14 @@
   .wrapper {
     display: grid;
     margin: 0 auto;
-    max-width: 960px;
+    max-width: 980px;
+    grid-gap: 10px;
     grid-template-columns: repeat(auto-fill, minmax(320px, 320px));
     grid-auto-rows: minmax(auto, auto);
   }
 
   .panel {
     /* needed for the flex layout*/
-    margin-left: 5px;
-    margin-right: 5px;
     flex: 1 1 200px;
   }
 
