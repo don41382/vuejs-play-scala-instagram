@@ -4,6 +4,7 @@
       <div class="header">
         <h1>Everyday a new moment</h1>
         <p>We capture everyday a new moment until we get married.</p>
+        <beat-loader :loading="loading" color="#007bff" size="20px"></beat-loader>
       </div>
       <div v-for="moment in moments">
         <moment :moment="moment"/>
@@ -14,6 +15,7 @@
 
 <script>
   import Moment from '../components/Moment.vue'
+  import BeatLoader from 'vue-spinner/src/BeatLoader.vue'
   import axios from 'axios';
   import _ from 'lodash';
 
@@ -21,6 +23,7 @@
 
     data: function () {
       return {
+        loading: true,
         defaultImage:  "https://scontent.cdninstagram.com/t51.2885-15/s320x320/e35/21041973_485351558485401_3316635971457384448_n.jpg",
         moments: []
       }
@@ -32,12 +35,14 @@
           }
         })
         .then(response => {
+          this.loading = false
           this.moments = response.data.data
         })
     },
 
     components: {
-      'moment': Moment
+      'moment': Moment,
+      BeatLoader
     }
 
   }

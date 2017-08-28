@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Home from './views/Home.vue'
+import Welcome from './views/Welcome.vue'
 import Moments from './views/Moments.vue'
 
 Vue.use(Router)
@@ -10,9 +10,14 @@ const router = new Router({
   linkActiveClass: 'is-active',
   routes: [
     {
-      name: 'Home',
+      name: 'Moments',
       path: '/',
-      component: Home
+      component: Moments
+    },
+    {
+      name: 'Welcome',
+      path: '/',
+      component: Welcome
     },
     {
       name: 'Moments',
