@@ -1,7 +1,8 @@
-html, body {
-  height: 100vh;
-}
-
 @import "variables.scss";
 @import "~bootstrap/scss/bootstrap.scss";
+
+body {
+  margin: 40px;
+}
+
 @import "../node_modules/element-ui/lib/theme-default/index.css"
