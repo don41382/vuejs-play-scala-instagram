@@ -49,6 +49,11 @@
 </script>
 
 <style scoped lang="scss">
+  *,
+  *:before,
+  *:after {
+    box-sizing:border-box;
+  }
 
   .header {
     text-align: center;
@@ -61,7 +66,7 @@
     display: grid;
     margin: 0 auto;
     max-width: 1100px;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 320px));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr  ));
     grid-auto-rows: minmax(auto, auto);
   }
 
@@ -73,8 +78,7 @@
 
   .panel {
     /* needed for the flex layout*/
-    flex: 1 1 200px;
-    width: 320px;
+    flex: 1 1 320px;
     margin: 10px;
   }
 
