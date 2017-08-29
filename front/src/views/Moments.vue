@@ -66,6 +66,12 @@
     grid-auto-rows: minmax(auto, auto);
   }
 
+  .wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    /* no grid support */
+  }
+
   .panel {
     /* needed for the flex layout*/
     flex: 1 1 200px;
