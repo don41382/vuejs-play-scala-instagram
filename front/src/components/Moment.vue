@@ -1,6 +1,6 @@
 <template>
   <el-card :body-style="{ padding: '0px' }" class="panel">
-    <img :src="moment.stdImage" class="image">
+    <img :src="moment.lowImage" class="image">
     <div style="padding: 14px;">
       <div>
         <div class="daysleft">
@@ -72,7 +72,6 @@
   }
 
   .image {
-    width: 100%;
     display: block;
   }
 
