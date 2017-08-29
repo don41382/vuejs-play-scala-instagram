@@ -60,8 +60,7 @@
   .wrapper {
     display: grid;
     margin: 0 auto;
-    max-width: 980px;
-    grid-gap: 10px;
+    max-width: 1100px;
     grid-template-columns: repeat(auto-fill, minmax(320px, 320px));
     grid-auto-rows: minmax(auto, auto);
   }
@@ -75,6 +74,8 @@
   .panel {
     /* needed for the flex layout*/
     flex: 1 1 200px;
+    width: 320px;
+    margin: 10px;
   }
 
 </style>
