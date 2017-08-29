@@ -16,4 +16,5 @@ dist
 node_modules
 front/package-lock.json
 *.log
+public/bundle
 conf/application-dev.conf
