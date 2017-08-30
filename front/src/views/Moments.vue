@@ -65,6 +65,7 @@
   .wrapper {
     display: grid;
     margin: 0 auto;
+    width: 320px;
     max-width: 1100px;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr  ));
     grid-auto-rows: minmax(auto, auto);
