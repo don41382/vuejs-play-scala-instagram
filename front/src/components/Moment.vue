@@ -28,7 +28,9 @@
 
     computed: {
       hashTag: function () {
-        return _.head(_.map(this.moment.tags,function (tag) {
+        const startsWithHashEngage = function (s) { console.warn(s); return s.toLowerCase().startsWith("verlobungs") }
+
+        return _.head(_.map(_.filter(this.moment.tags,startsWithHashEngage), function (tag) {
           return _.replace(tag.toLowerCase(),"verlobungs","<b>#verlobungs</b>&thinsp;")
         }))
       },

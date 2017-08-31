@@ -24,7 +24,6 @@
     data: function () {
       return {
         loading: true,
-        defaultImage:  "https://scontent.cdninstagram.com/t51.2885-15/s320x320/e35/21041973_485351558485401_3316635971457384448_n.jpg",
         moments: []
       }
     },
@@ -65,9 +64,10 @@
   .wrapper {
     display: grid;
     margin: 0 auto;
-    width: 320px;
-    max-width: 1100px;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr  ));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 320px));
+    @media screen and (min-width: 1280px) {
+      max-width: 1000px;
+    }
     grid-auto-rows: minmax(auto, auto);
   }
 
@@ -80,7 +80,9 @@
   .panel {
     /* needed for the flex layout*/
     flex: 1 1 320px;
-    margin: 10px;
+    max-width: 320px;
+    margin: 2%;
+    height: 98%;
   }
 
 </style>
