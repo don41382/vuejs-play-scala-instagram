@@ -10,7 +10,7 @@ const router = new Router({
   linkActiveClass: 'is-active',
   routes: [
     {
-      name: 'Moments',
+      name: 'Home',
       path: '/',
       component: Moments
     },
