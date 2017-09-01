@@ -69,6 +69,7 @@
       max-width: 1000px;
     }
     @media only screen and (max-device-width:480px){
+      max-width: 320px;
     }
     grid-auto-rows: minmax(auto, auto);
   }
