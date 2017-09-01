@@ -65,8 +65,11 @@
     display: grid;
     margin: 0 auto;
     grid-template-columns: repeat(auto-fill, minmax(320px, 320px));
-    @media screen and (min-width: 1280px) {
+    @media only screen and (min-width: 1080px) {
       max-width: 1000px;
+    }
+    @media only screen and (max-device-width:480px){
+      max-width: 320px;
     }
     grid-auto-rows: minmax(auto, auto);
   }
