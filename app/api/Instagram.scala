@@ -2,6 +2,7 @@ package api
 
 import com.google.inject.Inject
 import model.{Response, ResponseWeb}
+import play.api.Logger
 import play.api.libs.json.{JsError, JsSuccess, Json}
 import play.api.libs.ws.WSClient
 
@@ -17,6 +18,8 @@ case class JsonError(msg: String) extends LoadRecentFeedsError
 class Instagram @Inject() (ws: WSClient, cfg: config.Api) {
 
   import scala.concurrent.ExecutionContext.Implicits.global
+
+  val log = Logger(this.getClass)
 
   def loadRecentFeeds(nextMaxId: Option[String]): EitherT[Future, LoadRecentFeedsError, Response] = {
     val params: List[(String,String)] = List(
@@ -41,9 +44,10 @@ class Instagram @Inject() (ws: WSClient, cfg: config.Api) {
       loadRecentFeeds(next).flatMap { res =>
         res.nextMaxId match {
           case None =>
+            log.info(s"requesting done")
             EitherT.right(Future.successful(merge(res,lresp)))
           case Some(next) =>
-            println(s"requesting next: $next")
+            log.info(s"requesting next: $next")
             if (count < maxPages) {
               run(Some(next), Some(merge(res,lresp)), count + 1)
             } else {
@@ -53,6 +57,7 @@ class Instagram @Inject() (ws: WSClient, cfg: config.Api) {
         }
       }
     }
+    log.info(s"initial request for $maxPages")
     run(None, None, 0)
   }
 

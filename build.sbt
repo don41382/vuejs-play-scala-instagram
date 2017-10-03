@@ -9,7 +9,7 @@ scalaVersion := "2.12.2"
 
 lazy val `play-vue-webpack` = (project in file(".")).enablePlugins(PlayScala)
 
-libraryDependencies ++= Seq(guice, filters, jdbc , cacheApi ,ws , specs2 % Test)
+libraryDependencies ++= Seq(ehcache, guice, filters, jdbc , cacheApi ,ws , specs2 % Test)
 
 libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.2.15"
 
