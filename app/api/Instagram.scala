@@ -44,10 +44,8 @@ class Instagram @Inject() (ws: WSClient, cfg: config.Api) {
       loadRecentFeeds(next).flatMap { res =>
         res.nextMaxId match {
           case None =>
-            log.info(s"requesting done")
             EitherT.right(Future.successful(merge(res,lresp)))
           case Some(next) =>
-            log.info(s"requesting next: $next")
             if (count < maxPages) {
               run(Some(next), Some(merge(res,lresp)), count + 1)
             } else {
@@ -57,7 +55,6 @@ class Instagram @Inject() (ws: WSClient, cfg: config.Api) {
         }
       }
     }
-    log.info(s"initial request for $maxPages")
     run(None, None, 0)
   }
 
