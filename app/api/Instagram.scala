@@ -42,9 +42,10 @@ class Instagram @Inject() (ws: WSClient, cfg: config.Api) {
         res.nextMaxId match {
           case None =>
             EitherT.right(Future.successful(merge(res,lresp)))
-          case Some(id) =>
+          case Some(next) =>
+            println(s"requesting next: $next")
             if (count < maxPages) {
-              run(Some(id), Some(merge(res,lresp)), count + 1)
+              run(Some(next), Some(merge(res,lresp)), count + 1)
             } else {
               EitherT.right(Future.successful(merge(res,lresp)))
             }
