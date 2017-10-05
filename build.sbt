@@ -1,7 +1,7 @@
 import com.typesafe.sbt.packager.MappingsHelper._
 mappings in Universal ++= directory(baseDirectory.value / "public")
 
-name := "kussausliebe"
+name := "vuejs-play-scala-instagram"
 
 version := "1.1"
 
