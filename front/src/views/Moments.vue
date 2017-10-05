@@ -37,6 +37,14 @@
           this.loading = false
           this.moments = response.data
         })
+        .catch(error => {
+           this.$notify.error({
+            title: 'Bad response from Server',
+            message: 'The server returned an invalid response. Please check the javascript logs for details.',
+            duration: 0
+          });
+          console.error("bad request from server", error.response);
+        })
     },
 
     components: {
@@ -84,5 +92,4 @@
     margin: 2%;
     height: 98%;
   }
-
 </style>
