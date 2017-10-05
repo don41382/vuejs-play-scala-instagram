@@ -1,9 +1,9 @@
 package api
 
+import api.model.FeedResponse
 import com.google.inject.Inject
-import model.{MediaId, MediaResponse, MediaResponseWeb}
 import play.api.Logger
-import play.api.libs.json.{JsError, JsSuccess, Json}
+import play.api.libs.json.{JsError, JsObject, JsSuccess, Json}
 import play.api.libs.ws.WSClient
 
 import scala.concurrent.Future
@@ -13,7 +13,7 @@ import Scalaz._
 
 object InstagramFeeds {
   sealed trait Error
-  case class JsonError(msg: String) extends Error
+  case class JsonError(msg: JsObject) extends Error
 }
 
 class InstagramFeeds @Inject()(ws: WSClient, cfg: config.Api) {
@@ -22,7 +22,7 @@ class InstagramFeeds @Inject()(ws: WSClient, cfg: config.Api) {
 
   val log = Logger(this.getClass)
 
-  def loadRecentFeeds(nextMaxId: Option[String]): EitherT[Future, InstagramFeeds.Error, MediaResponse] = {
+  def loadRecentFeeds(nextMaxId: Option[String]): EitherT[Future, InstagramFeeds.Error, FeedResponse] = {
     val params: List[(String,String)] = List(
       ("access_token", cfg.imToken)
     ) ++ nextMaxId.map(id => List(("max_id",id))).getOrElse(List())
@@ -31,17 +31,17 @@ class InstagramFeeds @Inject()(ws: WSClient, cfg: config.Api) {
       .addQueryStringParameters(params:_*)
       .get()
       .map { response =>
-        Json.fromJson(response.json)(MediaResponse.instagramReads) match {
+        Json.fromJson[FeedResponse](response.json) match {
           case JsSuccess(res,_) =>
             Right(res)
           case e : JsError =>
-            Left(InstagramFeeds.JsonError(JsError.toJson(e).toString))
+            Left(InstagramFeeds.JsonError(JsError.toJson(e)))
         }
       })
   }
 
-  def loadAllFeeds(maxPages: Int): EitherT[Future, InstagramFeeds.Error, MediaResponse] = {
-    def run(next: Option[String], lresp: Option[MediaResponse], count: Int): EitherT[Future, InstagramFeeds.Error, MediaResponse] = {
+  def loadAllFeeds(maxPages: Int): EitherT[Future, InstagramFeeds.Error, FeedResponse] = {
+    def run(next: Option[String], lresp: Option[FeedResponse], count: Int): EitherT[Future, InstagramFeeds.Error, FeedResponse] = {
       loadRecentFeeds(next).flatMap { res =>
         res.nextMaxId match {
           case None =>
@@ -59,7 +59,7 @@ class InstagramFeeds @Inject()(ws: WSClient, cfg: config.Api) {
     run(None, None, 0)
   }
 
-  def merge(r: MediaResponse, ropt: Option[MediaResponse]): MediaResponse = ropt match {
+  def merge(r: FeedResponse, ropt: Option[FeedResponse]): FeedResponse = ropt match {
     case None =>
       r
     case Some(newR) =>

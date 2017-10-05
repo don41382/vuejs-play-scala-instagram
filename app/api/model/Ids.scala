@@ -1,7 +1,6 @@
-package model
+package api.model
 
 import play.api.libs.json._
-
 
 case class MediaId (id: String)
 

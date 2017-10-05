@@ -3,8 +3,8 @@ package api
 import java.time.{Instant, ZonedDateTime}
 import java.time.temporal.ChronoUnit
 
+import api.model.{Like, MediaId}
 import com.google.inject.Inject
-import model.{Like, MediaId}
 import play.api.Logger
 import play.api.cache.AsyncCacheApi
 import play.api.libs.json.{JsError, JsSuccess, Json, Reads, _}
@@ -18,13 +18,7 @@ import scalaz.{EitherT, _}
 
 object InstagramLikes {
   sealed trait Error
-  case class JsonError(msg: String) extends Error
-
-  val likeReads: Reads[List[Like]] = new Reads[List[Like]] {
-    override def reads(json: JsValue): JsResult[List[Like]] =
-      (json \ "data").validate[List[Like]](Reads.list[Like](Like.instagramRead))
-  }
-
+  case class JsonError(msg: JsObject) extends Error
 }
 
 class InstagramLikes @Inject()(ws: WSClient, cfg: config.Api, cache: AsyncCacheApi) {
@@ -43,11 +37,11 @@ class InstagramLikes @Inject()(ws: WSClient, cfg: config.Api, cache: AsyncCacheA
         .addQueryStringParameters(params:_*)
         .get()
         .map { response =>
-          Json.fromJson(response.json)(InstagramLikes.likeReads) match {
+          Json.fromJson[List[Like]](response.json)((__ \ "data").read(Reads.list[Like])) match {
             case JsSuccess(res,_) =>
               Right(res)
             case e : JsError =>
-              Left(InstagramLikes.JsonError(JsError.toJson(e).toString))
+              Left(InstagramLikes.JsonError(JsError.toJson(e)))
           }
       }))
 
