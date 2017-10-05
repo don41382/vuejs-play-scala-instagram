@@ -40,7 +40,7 @@
       },
 
       daysUntilWedding: function () {
-        var a = moment([2018, 5, 6]);
+        var a = moment([2018, 6, 5]);
         var b = moment(this.moment.created);
         return a.diff(b, 'days')
       }

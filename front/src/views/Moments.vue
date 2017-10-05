@@ -29,15 +29,13 @@
     },
 
     created: function () {
-      axios.get("/api/moments", {
-          params: {
-          }
-        })
+      axios.get("/api/moments")
         .then(response => {
           this.loading = false
           this.moments = response.data
         })
         .catch(error => {
+           this.loading = false
            this.$notify.error({
             title: 'Bad response from Server',
             message: 'The server returned an invalid response. Please check the javascript logs for details.',
