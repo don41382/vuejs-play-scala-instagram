@@ -3,7 +3,7 @@
 Goal of the project is to display instagram pictures on your own website and make it possible to do more advanced API aggregation, e.g. show the first liker of a media.
 
 <p align="center">
-![doc/example.jpg]
+<img src="doc/example.jpg">
 </p>
 
 [Demo](www.kussausliebe.de)
