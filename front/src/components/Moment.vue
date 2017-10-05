@@ -7,10 +7,14 @@
           <div class="title text-primary">{{ daysUntilWedding }}</div>
           <div class="subtitle text-primary">days left</div>
         </div>
-        <span v-html="hashTag"/>
+        <span class="title" v-html="hashTag"/>
       </div>
       <div class="bottom clearfix">
-        <time class="time">{{ moment.created | moment("from", "now") }}</time>
+        <time class="time">
+          <span class="heart">&hearts;</span>
+          {{ moment.first_liker }}
+          <span class="first-like">#1</span>
+        </time>
       </div>
     </div>
   </el-card>
@@ -55,6 +59,19 @@
   .bottom {
     margin-top: 10px;
     line-height: 0px;
+  }
+
+  .heart {
+    color: #c73f2f;
+  }
+
+  .first-like {
+    font-size: 8px;
+    vertical-align: top;
+  }
+
+  .title {
+    font-size: 15px;
   }
 
   .daysleft {

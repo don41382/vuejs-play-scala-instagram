@@ -35,7 +35,7 @@
         })
         .then(response => {
           this.loading = false
-          this.moments = response.data.data
+          this.moments = response.data
         })
     },
 
