@@ -12,9 +12,9 @@
       <div class="bottom clearfix">
         <time class="liker">
           <span class="heart">&hearts;</span>
-          <div class="name" v-for="(name,place) in moment.first_liker">
+          <div class="name" v-for="(name,index) in moment.first_liker">
             {{ name }}
-            <span class="place">#{{ place+1 }}</span>
+            <span class="place" v-html="placeRender(index)"/>
           </div>
         </time>
       </div>
@@ -29,6 +29,17 @@
   export default {
     data () {
       return {
+        placeRender: function (i) {
+          if (i == 0) {
+            return "1st";
+          } else if (i == 1) {
+            return "2nd";
+          } else if (i == 2) {
+            return "3rd";
+          } else {
+            return i;
+          }
+        }
       }
     },
 
@@ -69,8 +80,7 @@
   }
 
   .bottom {
-    margin-top: 10px;
-    line-height: 0px;
+    line-height: 1;
   }
 
   .heart {

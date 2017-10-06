@@ -42,11 +42,19 @@ class InstagramController @Inject()(cache: AsyncCacheApi, cc: ControllerComponen
             m.created,
             m.lowImage,
             m.stdImage,
-            likes.take(3).map(_.fullName.split(" ").head),
+            likes.take(3).map(l => parseFirstName(l.fullName).getOrElse(l.username)),
             m.tags)
       }).sequenceU
     } yield (mediaWithLikes)
 
+  def parseFirstName(name: String): Option[String] = {
+    name.split(" ").toList match {
+      case first :: last =>
+        if (first.isEmpty) None else Some(first)
+      case _ =>
+        None
+    }
+  }
 }
 
 object InstagramController {
