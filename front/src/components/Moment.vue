@@ -34,7 +34,7 @@
 
     computed: {
       hashTag: function () {
-        const startsWithHashEngage = function (s) { console.warn(s); return s.toLowerCase().startsWith("verlobungs") }
+        const startsWithHashEngage = function (s) { return s.toLowerCase().startsWith("verlobungs") }
 
         return _.head(_.map(_.filter(this.moment.tags,startsWithHashEngage), function (tag) {
           return _.replace(tag.toLowerCase(),"verlobungs","<b>#verlobungs</b>&thinsp;")
