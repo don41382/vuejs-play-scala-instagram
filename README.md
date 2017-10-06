@@ -33,7 +33,7 @@ In order to access the instagramm API, you'll need a access token. The easiest w
 
 2. Clone this repository
 
-```git clone git@github.com:don41382/kussausliebe.git ```
+```git clone git@github.com:don41382/vuejs-play-scala-instagram.git```
 
 3. Create your own configuration
 
