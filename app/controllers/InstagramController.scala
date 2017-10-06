@@ -35,9 +35,9 @@ class InstagramController @Inject()(cache: AsyncCacheApi, cc: ControllerComponen
 
   def momentsWithLikes(): EitherT[Future, FeedsLikeError, List[InstagramMedia]] =
     for {
-      resp <- feeds.loadAllFeeds(10).leftMap(FeedsLikeError.feeds)
+      resp <- feeds.loadAllFeeds(10).leftMap[FeedsLikeError](FeedsError)
       mediaWithLikes <- resp.media.map(m =>
-        likes.loadLikes(m.id,m.created).leftMap(FeedsLikeError.likes).map{ likes =>
+        likes.loadLikes(m.id,m.created).leftMap[FeedsLikeError](LikesError).map{ likes =>
           InstagramMedia(
             m.created,
             m.lowImage,
@@ -63,8 +63,4 @@ object InstagramController {
   case class FeedsError(err: InstagramFeeds.Error) extends FeedsLikeError
   case class LikesError(err: InstagramLikes.Error) extends FeedsLikeError
 
-  object FeedsLikeError {
-    def feeds(e: InstagramFeeds.Error): FeedsLikeError = FeedsError(e)
-    def likes(e: InstagramLikes.Error): FeedsLikeError = LikesError(e)
-  }
 }
