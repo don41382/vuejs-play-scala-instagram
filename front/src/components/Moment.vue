@@ -10,10 +10,12 @@
         <span class="title" v-html="hashTag"/>
       </div>
       <div class="bottom clearfix">
-        <time class="time">
+        <time class="liker">
           <span class="heart">&hearts;</span>
-          {{ moment.first_liker }}
-          <span class="first-like">#1</span>
+          <div class="name" v-for="(name,place) in moment.first_liker">
+            {{ name }}
+            <span class="place">#{{ place+1 }}</span>
+          </div>
         </time>
       </div>
     </div>
@@ -51,9 +53,19 @@
 </script>
 
 <style scoped lang="scss">
-   .time {
-    font-size: 13px;
+   .liker {
+    font-size: 12px;
     color: #999;
+  }
+
+  .liker .name {
+    display: inline-block;
+  }
+
+  .liker .place {
+    font-size: 8px;
+    vertical-align: top;
+    padding-right: 5px;
   }
 
   .bottom {
@@ -63,11 +75,6 @@
 
   .heart {
     color: #c73f2f;
-  }
-
-  .first-like {
-    font-size: 8px;
-    vertical-align: top;
   }
 
   .title {

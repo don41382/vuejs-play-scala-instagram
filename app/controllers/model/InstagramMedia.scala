@@ -10,7 +10,7 @@ case class InstagramMedia(
   created: ZonedDateTime,
   lowImage: String,
   stdImage: String,
-  firstLiker: String,
+  firstLiker: List[String],
   tags: List[String]
 )
 
@@ -20,7 +20,7 @@ object InstagramMedia {
     (JsPath \ "created").write[ZonedDateTime](Writes.temporalWrites[ZonedDateTime, DateTimeFormatter](DateTimeFormatter.ISO_OFFSET_DATE_TIME)) and
       (JsPath \ "lowImage").write[String] and
       (JsPath \ "stdImage").write[String] and
-      (JsPath \ "first_liker").write[String] and
+      (JsPath \ "first_liker").write[List[String]] and
       (JsPath \ "tags").write[List[String]]
     )(unlift(InstagramMedia.unapply))
 

@@ -42,7 +42,7 @@ class InstagramController @Inject()(cache: AsyncCacheApi, cc: ControllerComponen
             m.created,
             m.lowImage,
             m.stdImage,
-            likes.headOption.map(_.fullName.split(" ").head).getOrElse("be the first liker!"),
+            likes.take(3).map(_.fullName.split(" ").head),
             m.tags)
       }).sequenceU
     } yield (mediaWithLikes)
