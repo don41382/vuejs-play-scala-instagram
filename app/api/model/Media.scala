@@ -11,6 +11,7 @@ case class Media(
   created: ZonedDateTime,
   lowImage: String,
   stdImage: String,
+  likeCount: Int,
   tags: List[String]
 )
 
@@ -23,11 +24,12 @@ object Media {
     }
   }
 
-  implicit val instagramRead: Reads[Media] = (
+  implicit val jsonReads: Reads[Media] = (
     (JsPath \ "id").read[MediaId] and
     (JsPath \ "created_time").read[ZonedDateTime](readTimeStamp) and
     (JsPath \ "images" \ "low_resolution" \ "url").read[String] and
     (JsPath \ "images" \ "standard_resolution" \ "url").read[String] and
+    (JsPath \ "likes" \ "count").read[Int] and
     (JsPath \ "tags").read[List[String]]
   )(Media.apply _)
 

@@ -84,7 +84,7 @@
   }
 
   .heart {
-    color: #c73f2f;
+    color: #e6605a;
   }
 
   .title {

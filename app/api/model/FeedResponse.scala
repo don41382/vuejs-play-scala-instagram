@@ -10,7 +10,7 @@ case class FeedResponse(
 
 object FeedResponse {
 
-  implicit val instagramReads: Reads[FeedResponse] = (
+  implicit val jsonReads: Reads[FeedResponse] = (
     (JsPath \ "pagination" \ "next_max_id").readNullable[String] and
       (JsPath \ "data").read[List[Media]]
   )(FeedResponse.apply _)

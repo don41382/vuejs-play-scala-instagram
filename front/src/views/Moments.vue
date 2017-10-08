@@ -1,11 +1,18 @@
 <template>
   <div>
     <div class="wrapper">
-      <div class="header">
+      <div class="title-head">
         <h1>Everyday a new moment</h1>
         <p>We capture everyday a new moment until we get married.</p>
         <beat-loader :loading="loading" color="#007bff" size="20px"></beat-loader>
       </div>
+
+      <h3 class="title-sub" v-if="!loading">~ favourites of the week ~</h3>
+      <div v-for="moment in topMoments">
+        <moment :moment="moment"/>
+      </div>
+
+      <h3 class="title-sub" v-if="!loading">~ latest ~</h3>
       <div v-for="moment in moments">
         <moment :moment="moment"/>
       </div>
@@ -24,7 +31,8 @@
     data: function () {
       return {
         loading: true,
-        moments: []
+        moments: [],
+        topMoments: []
       }
     },
 
@@ -32,7 +40,8 @@
       axios.get("/api/moments")
         .then(response => {
           this.loading = false
-          this.moments = response.data
+          this.moments = response.data.moments
+          this.topMoments = response.data.top
         })
         .catch(error => {
            this.loading = false
@@ -60,12 +69,22 @@
     box-sizing:border-box;
   }
 
-  .header {
+  .title-head {
     text-align: center;
     margin-bottom: 10px;
     flex: 0 1 100%;
     grid-column: 1 / -1;
   }
+
+  .title-sub {
+    text-align: center;
+    margin-top:10px;
+    flex: 0 1 100%;
+    grid-column: 1 / -1;
+    padding-top:20px;
+    color: #e6605a;
+  }
+
 
   .wrapper {
     display: grid;

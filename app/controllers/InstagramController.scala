@@ -1,17 +1,19 @@
 package controllers
 
+import java.time.ZonedDateTime
+
 import api.{InstagramFeeds, InstagramLikes}
 import com.google.inject.Inject
-import controllers.model.InstagramMedia
+import controllers.model.{InstagramMedia, InstagramMediaResponse}
 import play.api.Logger
 import play.api.cache.AsyncCacheApi
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.{AbstractController, ControllerComponents}
 
 import scala.concurrent.Future
-import scala.concurrent.duration._
 import scalaz.Scalaz._
 import scalaz._
+import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class InstagramController @Inject()(cache: AsyncCacheApi, cc: ControllerComponents, feeds: InstagramFeeds, likes: InstagramLikes) extends AbstractController(cc){
@@ -21,17 +23,29 @@ class InstagramController @Inject()(cache: AsyncCacheApi, cc: ControllerComponen
   import InstagramController._
 
   def moments(nextMaxId: Option[String]) = Action.async {
-    cache.getOrElseUpdate("allFeeds", 30 seconds)(momentsWithLikes().run.map(f => f match {
+    val res: EitherT[Future, FeedsLikeError, InstagramMediaResponse] = for {
+      moments <- momentsWithLikesCached()
+      tops <- topMomentsWithLikesCached(3, ZonedDateTime.now().minusWeeks(1))
+    } yield(InstagramMediaResponse(moments,tops))
+
+    res.run.map(f => f match {
       case \/-(res) =>
-        Ok(Json.toJson(res)(Writes.list[InstagramMedia]))
+        Ok(Json.toJson[InstagramMediaResponse](res))
       case -\/(e : FeedsLikeError) =>
         val jsonErr = e match {
           case FeedsError(InstagramFeeds.JsonError(j)) => j
           case LikesError(InstagramLikes.JsonError(j)) => j
         }
         BadRequest(jsonErr)
-    }))
+    })
   }
+
+  def topMomentsWithLikesCached(topCount: Int, beforeDate: ZonedDateTime): EitherT[Future, FeedsLikeError, List[InstagramMedia]] = {
+    momentsWithLikesCached().map(_.filter(_.created.isAfter(beforeDate)).groupBy(_.likeCount).toList.sortBy(-_._1).flatMap(_._2).take(topCount))
+  }
+
+  def momentsWithLikesCached(): EitherT[Future, FeedsLikeError, List[InstagramMedia]] =
+    EitherT.eitherT(cache.getOrElseUpdate("allFeeds", 30 seconds)(momentsWithLikes().run))
 
   def momentsWithLikes(): EitherT[Future, FeedsLikeError, List[InstagramMedia]] =
     for {
@@ -43,6 +57,7 @@ class InstagramController @Inject()(cache: AsyncCacheApi, cc: ControllerComponen
             m.lowImage,
             m.stdImage,
             likes.take(3).map(l => parseFirstName(l.fullName).getOrElse(l.username)),
+            m.likeCount,
             m.tags)
       }).sequenceU
     } yield (mediaWithLikes)

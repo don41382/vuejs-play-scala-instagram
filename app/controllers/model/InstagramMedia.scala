@@ -11,6 +11,7 @@ case class InstagramMedia(
   lowImage: String,
   stdImage: String,
   firstLiker: List[String],
+  likeCount: Int,
   tags: List[String]
 )
 
@@ -21,6 +22,7 @@ object InstagramMedia {
       (JsPath \ "lowImage").write[String] and
       (JsPath \ "stdImage").write[String] and
       (JsPath \ "first_liker").write[List[String]] and
+      (JsPath \ "like_count").write[Int] and
       (JsPath \ "tags").write[List[String]]
     )(unlift(InstagramMedia.unapply))
 

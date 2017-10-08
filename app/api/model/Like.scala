@@ -12,7 +12,7 @@ case class Like(
 
 object Like {
 
-  implicit val instagramRead: Reads[Like] = (
+  implicit val jsonReads: Reads[Like] = (
     (JsPath \ "id").read[String] and
       (JsPath \ "username").read[String] and
       (JsPath \ "full_name").read[String] and
