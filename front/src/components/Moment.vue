@@ -10,13 +10,6 @@
         <span class="title" v-html="hashTag"/>
       </div>
       <div class="bottom clearfix">
-        <time class="liker">
-          <span class="heart">&hearts;</span>
-          <div class="name" v-for="(name,index) in moment.first_liker">
-            {{ name }}
-            <span class="place" v-html="placeRender(index)"/>
-          </div>
-        </time>
       </div>
     </div>
   </el-card>

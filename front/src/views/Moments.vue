@@ -3,7 +3,7 @@
     <div class="wrapper">
       <div class="title-head">
         <h1>Everyday a new moment</h1>
-        <p>We capture everyday a new moment until we get married.</p>
+        <p style="color: #999">We capture everyday a new moment until we get married.</p>
         <beat-loader :loading="loading" color="#007bff" size="20px"></beat-loader>
       </div>
 

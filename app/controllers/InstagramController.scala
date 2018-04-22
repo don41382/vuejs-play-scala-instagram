@@ -33,8 +33,12 @@ class InstagramController @Inject()(cache: AsyncCacheApi, cc: ControllerComponen
         Ok(Json.toJson[InstagramMediaResponse](res))
       case -\/(e : FeedsLikeError) =>
         val jsonErr = e match {
-          case FeedsError(InstagramFeeds.JsonError(j)) => j
-          case LikesError(InstagramLikes.JsonError(j)) => j
+          case FeedsError(InstagramFeeds.JsonError(j)) =>
+            log.error(s"Feed-Request Error: ${j.fields}")
+            j
+          case LikesError(InstagramLikes.JsonError(j)) =>
+            log.error(s"Like-Request Error: ${j.fields}")
+            j
         }
         BadRequest(jsonErr)
     })
@@ -48,19 +52,14 @@ class InstagramController @Inject()(cache: AsyncCacheApi, cc: ControllerComponen
     EitherT.eitherT(cache.getOrElseUpdate("allFeeds", 30 seconds)(momentsWithLikes().run))
 
   def momentsWithLikes(): EitherT[Future, FeedsLikeError, List[InstagramMedia]] =
-    for {
-      resp <- feeds.loadAllFeeds(10).leftMap[FeedsLikeError](FeedsError)
-      mediaWithLikes <- resp.media.map(m =>
-        likes.loadLikes(m.id,m.created).leftMap[FeedsLikeError](LikesError).map{ likes =>
-          InstagramMedia(
-            m.created,
-            m.lowImage,
-            m.stdImage,
-            likes.take(3).map(l => parseFirstName(l.fullName).getOrElse(l.username)),
-            m.likeCount,
-            m.tags)
-      }).sequenceU
-    } yield (mediaWithLikes)
+    feeds.loadAllFeeds(20).leftMap[FeedsLikeError](FeedsError).map(_.media.map(m =>
+      InstagramMedia(
+        m.created,
+        m.lowImage,
+        m.stdImage,
+        List.empty,
+        m.likeCount,
+        m.tags)))
 
   def parseFirstName(name: String): Option[String] = {
     name.split(" ").toList match {
